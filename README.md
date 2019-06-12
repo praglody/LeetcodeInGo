@@ -152,3 +152,59 @@ func lengthOfLongestSubstring(s string) int {
 	return max
 }
 ```
+
+**5. 最长回文子串**
+
+给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。
+
+示例 1：
+输入: "babad"
+输出: "bab"
+注意: "aba" 也是一个有效答案。
+
+示例 2：
+输入: "cbbd"
+输出: "bb"
+
+解题：
+```
+// 中心扩展算法
+func longestPalindrome(s string) string {
+	var start, end int
+	var max = 0
+
+	if s == "" {
+		return s
+	}
+	for i := 0; i < len(s); i++ {
+		m1 := expandAroundCenter(&s, i, i)
+		m2 := expandAroundCenter(&s, i, i+1)
+
+		if m1 > m2 {
+			max = m1
+		} else {
+			max = m2
+		}
+
+		if max > end-start {
+			start = i - (max-1)/2
+			end = i + max/2
+		}
+	}
+
+	return string(s[start : end+1])
+}
+
+func expandAroundCenter(s *string, left, right int) int {
+	for left >= 0 && right < len(*s) {
+		if (*s)[left] != (*s)[right] {
+			break
+		} else {
+			left--
+			right++
+		}
+	}
+
+	return right - left - 1
+}
+```
