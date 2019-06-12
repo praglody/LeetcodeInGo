@@ -170,39 +170,32 @@ func lengthOfLongestSubstring(s string) int {
 ```
 // 中心扩展算法
 func longestPalindrome(s string) string {
-	var start, end int
-	var max = 0
-
-	if s == "" {
-		return s
-	}
+	var start, end = 0, -1
+    
 	for i := 0; i < len(s); i++ {
-		m1 := expandAroundCenter(&s, i, i)
-		m2 := expandAroundCenter(&s, i, i+1)
+		max := expandAroundCenter(&s, i, i)
+		max2 := expandAroundCenter(&s, i, i+1)
 
-		if m1 > m2 {
-			max = m1
-		} else {
-			max = m2
+		if max < max2 {
+			max = max2
 		}
 
 		if max > end-start {
 			start = i - (max-1)/2
 			end = i + max/2
 		}
-	}
 
-	return string(s[start : end+1])
+	}
+	return s[start : end+1]
 }
 
 func expandAroundCenter(s *string, left, right int) int {
 	for left >= 0 && right < len(*s) {
 		if (*s)[left] != (*s)[right] {
 			break
-		} else {
-			left--
-			right++
 		}
+		left--
+		right++
 	}
 
 	return right - left - 1
