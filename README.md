@@ -235,3 +235,33 @@ E   O E   I I
 E C   I H   N
 T     S     G
 ```
+
+解题：
+
+```
+func convert(s string, numRows int) string {
+	if s == "" || len(s) <= numRows || numRows == 1 {
+		return s
+	}
+
+	var rows = make([]string, numRows)
+	var curRow int
+	var direction bool
+
+	for i := 0; i < len(s); i++ {
+		if curRow == 0 || curRow == numRows-1 {
+			direction = !direction
+		}
+		rows[curRow] = rows[curRow] + string(s[i])
+		if direction {
+			curRow++
+		} else {
+			curRow--
+		}
+	}
+	for i := 1; i < numRows; i++ {
+		rows[0] += rows[i]
+	}
+	return rows[0]
+}
+```
