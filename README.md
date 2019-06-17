@@ -476,4 +476,25 @@ func maxArea(height []int) int {
 
 	return maxArea
 }
+
+// 双指针法
+func maxArea(height []int) int {
+	var maxArea int
+	var i, j = 0, len(height)-1
+	
+	for i < j {
+		if height[i] < height[j] {
+			if height[i]*(j-i) > maxArea {
+				maxArea = height[i] * (j - i)
+			}
+			i++
+		} else {
+			if height[j]*(j-i) > maxArea {
+				maxArea = height[j] * (j - i)
+			}
+			j--
+		}
+	}
+	return maxArea
+}
 ```
